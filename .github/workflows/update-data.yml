@@ -34,7 +34,3 @@ jobs:
         git add iphone_prices.csv
         git diff --quiet && git diff --staged --quiet || git commit -m "🤖 Auto-update iPhone prices data"
         git push
-        
-    - name: Trigger Vercel redeploy
-      run: |
-        curl -X POST ${{ secrets.VERCEL_REDEPLOY_URL }} || echo "Vercel redeploy URL not configured"
