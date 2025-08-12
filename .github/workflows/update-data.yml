@@ -1,0 +1,36 @@
+name: Update iPhone Data
+
+on:
+  schedule:
+    # Ejecutar cada 6 horas
+    - cron: "0 */6 * * *"
+  workflow_dispatch: # Permite ejecución manual
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run scraper
+        run: |
+          python simple_scraper.py
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add iphone_prices.csv
+          git commit -m "Auto-update iPhone data" || exit 0
+          git push

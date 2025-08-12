@@ -1,0 +1,19 @@
+IPHONE PRICE ANALYSIS REPORT
+==================================================
+
+Total iPhones analyzed: 30
+Stores analyzed: VELTRON - LISTA DE PRECIOS, TECNOSTORE_ARG
+Price range: $300 - $1700
+Average price: $855.00
+
+RECOMMENDATIONS:
+--------------------
+Best overall deals:
+  IPHONE 11 128 GB - $300 at TECNOSTORE_ARG (Usado)
+  IPHONE 11 128 GB - $310 at VELTRON - LISTA DE PRECIOS (Usado)
+  IPHONE 12 64 GB - $320 at VELTRON - LISTA DE PRECIOS (Usado)
+
+Best deals by condition:
+  Reacondicionado: IPHONE 12 128GB - $500 at VELTRON - LISTA DE PRECIOS
+  Nuevo: IPHONE 12 64 GB - $520 at VELTRON - LISTA DE PRECIOS
+  Usado: IPHONE 11 128 GB - $300 at TECNOSTORE_ARG

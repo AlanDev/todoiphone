@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TodoiPhone</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      href="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.vecteezy.com%2Fsystem%2Fresources%2Fpreviews%2F017%2F221%2F775%2Fnon_2x%2Fapple-logo-free-png.png&f=1&nofb=1&ipt=627bd66f0b2d1c6458a977c7f38b8c4d873d1bdb2a0ebbc1e230d72a9dfc695a"
+      type="image/x-icon"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#3b82f6",
+              secondary: "#64748b",
+              accent: "#f59e0b",
+              success: "#10b981",
+              warning: "#f59e0b",
+              danger: "#ef4444",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="bg-gradient-to-br from-blue-50 via-white to-purple-50 min-h-screen"
+  >
+  </body>/
+
+  <!--by AlanQuenardelle-->
+
+    <header class="bg-white shadow-lg border-b border-gray-200">
+      <div class="container mx-auto px-4 py-6">
+        <div
+          class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+        >
+          <div class="flex items-center space-x-3">
+            <div
+              class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center"
+            >
+              <i class="fab fa-apple text-white text-2xl"></i>
+            </div>
+            <div>
+              <h1
+                class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+              >
+                TodoiPhone
+              </h1>
+              <p class="text-gray-600 text-sm">
+                Tiendas de iPhone en Resistencia/Corrientes
+              </p>
+            </div>
+          </div>
+          <div class="text-right">
+            <p class="text-sm text-gray-500">Última actualización:</p>
+            <p class="text-sm font-medium text-gray-700" id="lastUpdate">-</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8"
+      >
+        <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+          <div class="flex items-center">
+            <div class="p-3 rounded-full bg-blue-100">
+              <i class="fas fa-mobile-alt text-blue-600 text-xl"></i>
+            </div>
+            <div class="ml-4">
+              <p class="text-sm font-medium text-gray-600">Total iPhones</p>
+              <p class="text-2xl font-bold text-gray-900" id="totalPhones">-</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+          <div class="flex items-center">
+            <div class="p-3 rounded-full bg-green-100">
+              <i class="fas fa-dollar-sign text-green-600 text-xl"></i>
+            </div>
+            <div class="ml-4">
+              <p class="text-sm font-medium text-gray-600">Dólar Blue:</p>
+              <p class="text-2xl font-bold text-gray-900" id="dolarblue">
+                Cargando...
+              </p>
+            </div>
+
+            <script>
+              async function actualizarPrecioDolar() {
+                try {
+                  const response = await fetch(
+                    "https://dolarapi.com/v1/dolares/blue"
+                  );
+                  const data = await response.json();
+
+                  if (data && data.venta) {
+                    const venta = data.venta.toFixed(2);
+                    document.getElementById(
+                      "dolarblue"
+                    ).textContent = `$ ${venta}`;
+                  } else {
+                    document.getElementById("dolarblue").textContent =
+                      "No disponible";
+                  }
+                } catch (error) {
+                  console.error(
+                    "Error al obtener el precio del dólar blue:",
+                    error
+                  );
+                  document.getElementById("dolarblue").textContent = "Error";
+                }
+              }
+
+              actualizarPrecioDolar();
+              setInterval(actualizarPrecioDolar, 60000);
+            </script>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="bg-white rounded-xl shadow-lg p-6 border border-gray-100 mb-8"
+      >
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="lg:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              <i class="fas fa-search mr-2"></i>Buscar iPhone
+            </label>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Buscar por modelo, GB, precio..."
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              <i class="fas fa-filter mr-2"></i>Condición
+            </label>
+            <select
+              id="conditionFilter"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="">Todas las condiciones</option>
+              <option value="Nuevo">Nuevo</option>
+              <option value="Usado">Usado</option>
+              <option value="Reacondicionado">Reacondicionado</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              <i class="fas fa-store mr-2"></i>Tienda
+            </label>
+            <select
+              id="storeFilter"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="">Todas las tiendas</option>
+              <option value="VELTRON - LISTA DE PRECIOS">VELTRON</option>
+              <option value="TECNOSTORE_ARG">TECNOSTORE</option>
+              <option value="MasStore">MasStore</option>
+              <option value="iPhoneShop">iPhoneShop</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              <i class="fas fa-dollar-sign mr-2"></i>Precio mínimo
+            </label>
+            <input
+              type="number"
+              id="minPriceFilter"
+              placeholder="0"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              <i class="fas fa-dollar-sign mr-2"></i>Precio máximo
+            </label>
+            <input
+              type="number"
+              id="maxPriceFilter"
+              placeholder="2000"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+          <div class="flex items-end">
+            <button
+              id="clearFilters"
+              class="w-full px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+            >
+              <i class="fas fa-times mr-2"></i>Limpiar filtros
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-4 border-t border-gray-200">
+          <p class="text-sm text-gray-600">
+            Mostrando <span id="resultsCount" class="font-semibold">-</span> de
+            <span id="totalCount" class="font-semibold">-</span> iPhones
+          </p>
+        </div>
+      </div>
+
+      <div class="space-y-8" id="storeSections">
+        <div class="text-center py-12" id="loadingState">
+          <div
+            class="inline-flex items-center px-4 py-2 font-semibold leading-6 text-gray-600 shadow rounded-md"
+          >
+            <svg
+              class="animate-spin -ml-1 mr-3 h-5 w-5 text-gray-600"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+            Cargando datos de iPhone...
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 mt-16">
+      <div class="container mx-auto px-4 py-6">
+        <div class="text-center text-gray-600">
+          <p>&copy; 2025 TodoiPhone. Datos actualizados en tiempo real.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const iphoneData = [];
+      let filteredData = [];
+
+      async function loadData() {
+        try {
+          const response = await fetch("iphone_prices.csv");
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const text = await response.text();
+          const lines = text.split("\n");
+          const dataLines = lines.slice(1).filter((line) => line.trim() !== "");
+
+          iphoneData.length = 0;
+
+          dataLines.forEach((line) => {
+            const [Pagina, Modelo, GB, Precio_USD, Condicion] = line.split(",");
+
+            const cleanData = {
+              Pagina: Pagina.trim(),
+              Modelo: Modelo.trim(),
+              GB: GB.trim(),
+              Precio_USD: Precio_USD.trim(),
+              Condicion: Condicion.trim(),
+            };
+            iphoneData.push(cleanData);
+          });
+
+          filteredData = [...iphoneData];
+          displayData();
+          updateStats();
+          updateLastUpdate();
+          updateResultsCount();
+
+          document
+            .getElementById("searchInput")
+            .addEventListener("input", applyFilters);
+          document
+            .getElementById("conditionFilter")
+            .addEventListener("change", applyFilters);
+          document
+            .getElementById("storeFilter")
+            .addEventListener("change", applyFilters);
+          document
+            .getElementById("minPriceFilter")
+            .addEventListener("input", applyFilters);
+          document
+            .getElementById("maxPriceFilter")
+            .addEventListener("input", applyFilters);
+          document
+            .getElementById("clearFilters")
+            .addEventListener("click", clearFilters);
+        } catch (error) {
+          console.error("Error loading data:", error);
+          document.getElementById("loadingState").innerHTML = `
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                        <div class="flex">
+                            <i class="fas fa-exclamation-triangle text-red-400 mt-1"></i>
+                            <div class="ml-3">
+                                <h3 class="text-sm font-medium text-red-800">Error cargando datos</h3>
+                                <p class="text-sm text-red-700 mt-1">${error.message}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+        }
+      }
+      function getCondicionClass(condicion) {
+        const c = condicion.trim().toLowerCase();
+        if (c === "nuevo") return "bg-blue-100 text-blue-700";
+        if (c === "reacondicionado") return "bg-amber-100 text-amber-700";
+        if (c === "usado") return "bg-emerald-100 text-emerald-700";
+        return "bg-gray-100 text-gray-700";
+      }
+
+      function applyFilters() {
+        const searchTerm = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+        const conditionFilter =
+          document.getElementById("conditionFilter").value;
+        const storeFilter = document.getElementById("storeFilter").value;
+        const minPrice = document.getElementById("minPriceFilter").value;
+        const maxPrice = document.getElementById("maxPriceFilter").value;
+
+        console.log("Filtros activos:", {
+          searchTerm,
+          conditionFilter,
+          storeFilter,
+          minPrice,
+          maxPrice,
+        });
+
+        filteredData = iphoneData.filter((item) => {
+          const searchMatch =
+            !searchTerm ||
+            item.Modelo.toLowerCase().includes(searchTerm) ||
+            item.GB.toLowerCase().includes(searchTerm) ||
+            item.Precio_USD.includes(searchTerm) ||
+            item.Pagina.toLowerCase().includes(searchTerm);
+
+          const conditionMatch =
+            !conditionFilter || item.Condicion === conditionFilter;
+
+          const storeMatch = !storeFilter || item.Pagina === storeFilter;
+
+          const price = parseInt(item.Precio_USD);
+          const minPriceMatch = !minPrice || price >= parseInt(minPrice);
+          const maxPriceMatch = !maxPrice || price <= parseInt(maxPrice);
+
+          if (conditionFilter && item.Condicion === conditionFilter) {
+            console.log(
+              "Match encontrado:",
+              item.Modelo,
+              item.Condicion,
+              conditionFilter
+            );
+          }
+
+          return (
+            searchMatch &&
+            conditionMatch &&
+            storeMatch &&
+            minPriceMatch &&
+            maxPriceMatch
+          );
+        });
+
+        console.log("Total filtrado:", filteredData.length);
+
+        displayData();
+        updateResultsCount();
+      }
+
+      function displayData() {
+        const storeSections = document.getElementById("storeSections");
+        const loadingState = document.getElementById("loadingState");
+
+        if (filteredData.length === 0) {
+          storeSections.innerHTML = `
+            <div class="text-center py-12">
+              <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-8">
+                <i class="fas fa-search text-yellow-400 text-4xl mb-4"></i>
+                <h3 class="text-lg font-medium text-yellow-800 mb-2">No se encontraron resultados</h3>
+                <p class="text-yellow-700">Intenta ajustar los filtros de búsqueda</p>
+              </div>
+            </div>
+          `;
+          return;
+        }
+
+        const stores = {};
+        filteredData.forEach((item) => {
+          if (!stores[item.Pagina]) {
+            stores[item.Pagina] = [];
+          }
+          stores[item.Pagina].push(item);
+        });
+
+        let html = `<div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">`;
+
+        Object.keys(stores).forEach((storeName) => {
+          const storeItems = stores[storeName];
+
+          html += `
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden min-w-0">
+          <div class="bg-gradient-to-r from-blue-500 to-purple-600 px-3 py-2">
+            <div class="flex items-center justify-between">
+              <h2 class="text-lg font-bold text-white truncate">${storeName}</h2>
+              <span class="bg-white/20 text-white px-2 py-1 rounded-md text-xs font-medium flex-shrink-0">
+                ${storeItems.length} modelos
+              </span>
+            </div>
+          </div>
+
+          <div class="p-2">
+            <div class="overflow-x-auto">
+              <table class="w-full">
+                <thead>
+                  <tr class="border-b border-gray-200">
+                    <th class="text-left p-2 sm:p-4 font-semibold text-gray-900 text-xs sm:text-sm">Modelo</th>
+                    <th class="text-left p-2 sm:p-4 font-semibold text-gray-900 text-xs sm:text-sm">GB</th>
+                    <th class="text-left p-2 sm:p-4 font-semibold text-gray-900 text-xs sm:text-sm">Precio (USD)</th>
+                    <th class="text-left p-2 sm:p-4 font-semibold text-gray-900 text-xs sm:text-sm">Condición</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${storeItems
+                    .map(
+                      (item, index) => `
+                        <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors ${
+                          index % 2 === 0 ? "bg-white" : "bg-gray-50/30"
+                        }">
+                          <td class="p-2 sm:p-4 font-medium text-gray-900 text-xs sm:text-sm truncate">${
+                            item.Modelo
+                          }</td>
+                          <td class="p-2 sm:p-4 text-gray-600 text-xs sm:text-sm">${
+                            item.GB
+                          }</td>
+                          <td class="p-2 sm:p-4 text-sm sm:text-base font-bold text-emerald-600">$${
+                            item.Precio_USD
+                          }</td>
+                          <td class="p-2 sm:p-4">
+                            <span class="px-1 py-0.5 rounded-full text-xs font-medium ${getCondicionClass(
+                              item.Condicion
+                            )}">
+                              ${item.Condicion}
+                            </span>
+                          </td>
+                        </tr>
+                      `
+                    )
+                    .join("")}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      `;
+        });
+
+        html += `</div>`;
+        storeSections.innerHTML = html;
+
+        loadingState.style.display = "none";
+      }
+
+      function updateStats() {
+        const totalPhones = iphoneData.length;
+        const avgPrice = Math.round(
+          iphoneData.reduce(
+            (sum, item) => sum + parseInt(item.Precio_USD || 0),
+            0
+          ) / totalPhones
+        );
+        const minPrice = Math.min(
+          ...iphoneData.map((item) => parseInt(item.Precio_USD || 0))
+        );
+        const totalStores = new Set(iphoneData.map((item) => item.Pagina)).size;
+
+        document.getElementById("totalPhones").textContent = totalPhones;
+      }
+
+      function updateResultsCount() {
+        document.getElementById("resultsCount").textContent =
+          filteredData.length;
+        document.getElementById("totalCount").textContent = iphoneData.length;
+      }
+
+      function updateLastUpdate() {
+        const now = new Date();
+        const options = {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        };
+        document.getElementById("lastUpdate").textContent =
+          now.toLocaleDateString("es-ES", options);
+      }
+
+      function clearFilters() {
+        document.getElementById("searchInput").value = "";
+        document.getElementById("conditionFilter").value = "";
+        document.getElementById("storeFilter").value = "";
+        document.getElementById("minPriceFilter").value = "";
+        document.getElementById("maxPriceFilter").value = "";
+        filteredData = [...iphoneData];
+        displayData();
+        updateResultsCount();
+      }
+
+      window.addEventListener("load", loadData);
+
+      setInterval(loadData, 5 * 60 * 1000);
+    </script>
+  </body>
+</html>
