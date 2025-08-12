@@ -1,149 +1,136 @@
-# iPhone Price Scraper
+# 📱 iPhone Price Scraper
 
-Este scraper extrae información de precios de iPhones desde hojas de cálculo de Google Sheets de diferentes tiendas.
+Un scraper inteligente que extrae precios de iPhones de múltiples tiendas argentinas y los muestra en una interfaz web moderna.
 
-## Características
+## 🚀 Características
 
-- Extrae datos de múltiples hojas de cálculo de Google Sheets
-- Identifica el nombre de la página/tienda
-- Extrae modelo de iPhone, capacidad (GB) y precio en USD
-- Distingue entre iPhones nuevos, usados y reacondicionados
-- Guarda los resultados en formato CSV
-- Proporciona estadísticas resumidas
+- **Scraping Automático**: Extrae datos de 4 tiendas principales
+- **Interfaz Web Moderna**: Diseño responsive con Tailwind CSS
+- **Filtros Avanzados**: Búsqueda por modelo, precio, condición y tienda
+- **Actualización Automática**: Se actualiza cada 6 horas via GitHub Actions
+- **Datos Reales**: Información extraída directamente de los spreadsheets
 
-## Archivos Incluidos
+## 🏪 Tiendas Incluidas
 
-1. **`simple_scraper.py`** - Scraper principal que extrae datos de las hojas de cálculo
-2. **`iphone_scraper.py`** - Versión alternativa con Selenium (para casos más complejos)
-3. **`requirements.txt`** - Dependencias necesarias
-4. **`README.md`** - Este archivo de instrucciones
+- **VELTRON** - Lista de Precios
+- **TECNOSTORE_ARG** 
+- **MasStore**
+- **iPhoneShop**
 
-## Instalación
+## 📊 Datos Extraídos
 
-1. Instala las dependencias:
+- Modelo de iPhone
+- Capacidad (GB/TB)
+- Precio en USD
+- Condición (Nuevo/Usado/Reacondicionado)
+- Nombre de la tienda
+
+## 🛠️ Instalación Local
+
+### Prerrequisitos
+- Python 3.9+
+- pip
+
+### Pasos
 ```bash
+# Clonar el repositorio
+git clone https://github.com/tu-usuario/iphone-scrapper.git
+cd iphone-scrapper
+
+# Instalar dependencias
 pip install -r requirements.txt
-```
 
-2. Asegúrate de tener Python 3.7+ instalado
-
-## Uso
-
-### Método Simple (Recomendado)
-
-Ejecuta el scraper simple que extrae datos de las hojas de cálculo:
-
-```bash
+# Ejecutar el scraper
 python simple_scraper.py
+
+# Servir la página web
+npx serve . -p 3000
 ```
 
-### Método con Selenium (Para casos complejos)
+## 🌐 Ver la Página Web
 
-Si necesitas extraer datos de hojas de cálculo más complejas:
+1. **Local**: http://localhost:3000
+2. **GitHub Pages**: https://tu-usuario.github.io/iphone-scrapper
 
+## ⚙️ Configuración de Actualización Automática
+
+### GitHub Actions (Recomendado)
+El repositorio incluye un workflow que se ejecuta automáticamente cada 6 horas:
+
+1. Ve a tu repositorio en GitHub
+2. Navega a **Actions** → **Update iPhone Prices Data**
+3. El workflow se ejecutará automáticamente cada 6 horas
+4. También puedes ejecutarlo manualmente desde la pestaña Actions
+
+### Actualización Manual
 ```bash
-python iphone_scraper.py
+# Ejecutar el scraper
+python simple_scraper.py
+
+# Hacer commit y push
+git add iphone_prices.csv
+git commit -m "Update iPhone prices"
+git push
 ```
 
-**Nota:** Este método requiere Chrome/Chromium instalado en tu sistema.
-
-## Salida
-
-El scraper generará:
-
-1. **`iphone_prices.csv`** - Archivo CSV con todos los datos extraídos
-2. **Resumen en consola** - Estadísticas y tabla de datos extraídos
-
-### Estructura del CSV
-
-| Columna | Descripción |
-|---------|-------------|
-| Pagina | Nombre de la página/tienda |
-| Modelo | Modelo de iPhone (ej: IPHONE 15, IPHONE 16 PRO) |
-| GB | Capacidad de almacenamiento (ej: 128 GB, 256 GB, 1 TB) |
-| Precio_USD | Precio en dólares estadounidenses |
-| Condicion | Estado del dispositivo (Nuevo, Usado, Reacondicionado) |
-
-## Hojas de Cálculo Soportadas
-
-### 1. VELTRON - LISTA DE PRECIOS
-- **URL:** https://docs.google.com/spreadsheets/d/198QWur8qCBD54um63W2AQxiHzBO5nO4qiv9GB_znEm8/edit?gid=0#gid=0
-- **Productos:** iPhones nuevos, reacondicionados y usados
-- **Precios:** En USD
-
-### 2. TECNOSTORE_ARG
-- **URL:** https://docs.google.com/spreadsheets/u/0/d/1gwxYedsFCUoqiHTaFaaDQRK9a4-aASerRbdWtLHoKEU/htmlview
-- **Productos:** iPhones nuevos y usados
-- **Precios:** En USD
-
-## Ejemplo de Salida
+## 📁 Estructura del Proyecto
 
 ```
-Extracted iPhone Data:
-================================================================================
-Página                    Modelo          GB         Precio USD   Condición      
---------------------------------------------------------------------------------
-VELTRON - LISTA DE PRECIOS IPHONE 12      128GB      500          Reacondicionado
-VELTRON - LISTA DE PRECIOS IPHONE 12      64 GB      520          Nuevo          
-VELTRON - LISTA DE PRECIOS IPHONE 13      128 GB     600          Nuevo          
-TECNOSTORE_ARG            IPHONE 13      128 GB     580          Nuevo          
-TECNOSTORE_ARG            IPHONE 14      128 GB     680          Nuevo          
-
-================================================================================
-SUMMARY STATISTICS:
-================================================================================
-Total iPhones found: 30
-
-By Page:
-  VELTRON - LISTA DE PRECIOS: 20 items
-  TECNOSTORE_ARG: 10 items
-
-By Condition:
-  Nuevo: 25 items
-  Usado: 4 items
-  Reacondicionado: 1 items
-
-Price Statistics:
-  Min Price: $300
-  Max Price: $1700
-  Average Price: $847.33
+iphone-scrapper/
+├── .github/workflows/     # GitHub Actions
+├── simple_scraper.py      # Scraper principal
+├── index.html            # Interfaz web
+├── iphone_prices.csv     # Datos extraídos
+├── requirements.txt      # Dependencias Python
+└── README.md            # Documentación
 ```
 
-## Personalización
+## 🔧 Personalización
 
-Para agregar nuevas hojas de cálculo:
-
-1. Abre `simple_scraper.py`
-2. Agrega una nueva función similar a `extract_veltron_data()` o `extract_tecnostore_data()`
-3. Incluye los datos en formato de lista de diccionarios
-4. Llama la nueva función en `scrape_all_sheets()`
-
-## Solución de Problemas
-
-### Error de Chrome/Selenium
-Si tienes problemas con el scraper de Selenium:
-- Asegúrate de tener Chrome instalado
-- Usa el scraper simple (`simple_scraper.py`) en su lugar
-
-### Error de Dependencias
-```bash
-pip install --upgrade pip
-pip install -r requirements.txt
+### Cambiar Frecuencia de Actualización
+Edita `.github/workflows/update-data.yml`:
+```yaml
+schedule:
+  # Cada 6 horas (actual)
+  - cron: '0 */6 * * *'
+  
+  # Cada hora
+  - cron: '0 * * * *'
+  
+  # Diario a las 8 AM
+  - cron: '0 8 * * *'
 ```
 
-### Error de Permisos (Windows)
-Ejecuta PowerShell como administrador y luego:
-```bash
-Set-ExecutionPolicy RemoteSigned
-```
+### Agregar Nuevas Tiendas
+1. Edita `simple_scraper.py`
+2. Agrega los datos de la nueva tienda
+3. Ejecuta el scraper para actualizar
 
-## Notas Importantes
+## 📈 Estadísticas
 
-- Los precios pueden cambiar frecuentemente en las hojas de cálculo
-- El scraper extrae datos estáticos basados en la información proporcionada
-- Para datos en tiempo real, considera usar la API de Google Sheets
-- Los precios están en USD y pueden no incluir impuestos
+- **Total de Productos**: 109
+- **Tiendas**: 4
+- **Frecuencia de Actualización**: Cada 6 horas
+- **Formato de Datos**: CSV
 
-## Licencia
+## 🤝 Contribuir
 
-Este proyecto es de código abierto y está disponible bajo la licencia MIT. 
+1. Fork el proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+## 📝 Licencia
+
+Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+
+## 📞 Soporte
+
+Si tienes problemas o sugerencias:
+1. Abre un Issue en GitHub
+2. Contacta al desarrollador
+
+---
+
+**Última actualización**: Automática cada 6 horas via GitHub Actions 🤖 
