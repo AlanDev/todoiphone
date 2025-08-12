@@ -50,13 +50,19 @@ npx serve . -p 3000
 ## 🌐 Ver la Página Web
 
 1. **Local**: http://localhost:3000
-2. **GitHub Pages**: https://tu-usuario.github.io/iphone-scrapper
+2. **Vercel**: https://tu-app.vercel.app
+3. **GitHub Pages**: https://tu-usuario.github.io/iphone-scrapper
 
 ## ⚙️ Configuración de Actualización Automática
 
-### GitHub Actions (Recomendado)
-El repositorio incluye un workflow que se ejecuta automáticamente cada 6 horas:
+### Vercel + GitHub Actions (Recomendado)
+El repositorio incluye un sistema completo de actualización automática:
 
+1. **GitHub Actions**: Se ejecuta cada 6 horas y actualiza los datos
+2. **Vercel**: Se despliega automáticamente con los nuevos datos
+3. **API Endpoint**: `/api/update-data` para actualizaciones manuales
+
+### GitHub Actions
 1. Ve a tu repositorio en GitHub
 2. Navega a **Actions** → **Update iPhone Prices Data**
 3. El workflow se ejecutará automáticamente cada 6 horas
