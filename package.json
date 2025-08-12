@@ -1,0 +1,27 @@
+{
+  "name": "iphone-scrapper-cebra",
+  "version": "1.0.0",
+  "description": "iPhone Price Scraper with CEBRA data - Comparador de precios de iPhones en Argentina",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve . -p 3000",
+    "dev": "npx serve . -p 3000",
+    "streamlit": "streamlit run app_streamlit.py --server.port 8501",
+    "scrape": "python simple_scraper.py",
+    "install-deps": "pip install -r requirements.txt",
+    "setup": "npm run install-deps && npm run scrape"
+  },
+  "keywords": [
+    "iphone",
+    "scraper",
+    "argentina",
+    "precios",
+    "cebra",
+    "streamlit"
+  ],
+  "author": "iPhone Scraper Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

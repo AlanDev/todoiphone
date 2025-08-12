@@ -196,6 +196,80 @@ class SimpleiPhoneScraper:
                 'Condicion': item['condicion']
             })
     
+    def extract_cebra_data(self):
+        """Extract data from CEBRA sheet based on provided information"""
+        print("Extracting data from CEBRA PHONE...")
+        
+        # Data extracted from the CEBRA spreadsheet
+        cebra_data = [
+            # New/Refurbished iPhones
+            {"modelo": "IPHONE XR", "gb": "64 GB", "precio": "350", "condicion": "Reacondicionado"},
+            {"modelo": "IPHONE 11", "gb": "64 GB", "precio": "430", "condicion": "Reacondicionado"},
+            {"modelo": "IPHONE 11", "gb": "64 GB", "precio": "460", "condicion": "Nuevo"},
+            {"modelo": "IPHONE 11", "gb": "128 GB", "precio": "490", "condicion": "Nuevo"},
+            {"modelo": "IPHONE 11 PRO", "gb": "64 GB", "precio": "490", "condicion": "Reacondicionado"},
+            {"modelo": "IPHONE 12 MINI", "gb": "128 GB", "precio": "480", "condicion": "Reacondicionado"},
+            {"modelo": "IPHONE 12 MINI", "gb": "256 GB", "precio": "510", "condicion": "Reacondicionado"},
+            {"modelo": "IPHONE 12", "gb": "64 GB", "precio": "500", "condicion": "Nuevo"},
+            {"modelo": "IPHONE 12", "gb": "128 GB", "precio": "580", "condicion": "Nuevo"},
+            {"modelo": "IPHONE 12", "gb": "256 GB", "precio": "550", "condicion": "Reacondicionado"},
+            {"modelo": "IPHONE 13", "gb": "128 GB", "precio": "590", "condicion": "Nuevo"},
+            {"modelo": "IPHONE 13 PRO MAX", "gb": "256 GB", "precio": "930", "condicion": "Reacondicionado"},
+            {"modelo": "IPHONE 14", "gb": "128 GB", "precio": "690", "condicion": "Nuevo"},
+            {"modelo": "IPHONE 15", "gb": "128 GB", "precio": "760", "condicion": "Nuevo"},
+            {"modelo": "IPHONE 16 E", "gb": "128 GB", "precio": "650", "condicion": "Nuevo"},
+            {"modelo": "IPHONE 16 E", "gb": "256 GB", "precio": "770", "condicion": "Nuevo"},
+            {"modelo": "IPHONE 16", "gb": "128 GB", "precio": "860", "condicion": "Nuevo"},
+            {"modelo": "IPHONE 16", "gb": "256 GB", "precio": "980", "condicion": "Nuevo"},
+            {"modelo": "IPHONE 16 PLUS", "gb": "128 GB", "precio": "950", "condicion": "Open Box"},
+            {"modelo": "IPHONE 16 PLUS", "gb": "128 GB", "precio": "980", "condicion": "Nuevo"},
+            {"modelo": "IPHONE 16 PRO", "gb": "128 GB", "precio": "1020", "condicion": "Open Box"},
+            {"modelo": "IPHONE 16 PRO", "gb": "128 GB", "precio": "1050", "condicion": "Nuevo"},
+            {"modelo": "IPHONE 16 PRO", "gb": "256 GB", "precio": "1150", "condicion": "Nuevo"},
+            {"modelo": "IPHONE 16 PRO MAX", "gb": "256 GB", "precio": "1250", "condicion": "Nuevo"},
+            {"modelo": "IPHONE 16 PRO", "gb": "512 GB", "precio": "1330", "condicion": "Nuevo"},
+            {"modelo": "IPHONE 16 PRO MAX", "gb": "512 GB", "precio": "1530", "condicion": "Nuevo"},
+            
+            # Used iPhones
+            {"modelo": "IPHONE 15", "gb": "128 GB", "precio": "570", "condicion": "Usado"},
+            {"modelo": "IPHONE 14 PRO MAX", "gb": "128 GB", "precio": "700", "condicion": "Usado"},
+            {"modelo": "IPHONE 14 PRO", "gb": "128 GB", "precio": "630", "condicion": "Usado"},
+            {"modelo": "IPHONE 13 PRO MAX", "gb": "128 GB", "precio": "600", "condicion": "Usado"},
+            {"modelo": "IPHONE 13 PRO", "gb": "128 GB", "precio": "520", "condicion": "Usado"},
+            {"modelo": "IPHONE 14", "gb": "128 GB", "precio": "480", "condicion": "Usado"},
+            {"modelo": "IPHONE 12", "gb": "256 GB", "precio": "390", "condicion": "Usado"},
+            {"modelo": "IPHONE 12", "gb": "128 GB", "precio": "360", "condicion": "Usado"},
+            {"modelo": "IPHONE 12", "gb": "64 GB", "precio": "330", "condicion": "Usado"},
+            {"modelo": "IPHONE 13 MINI", "gb": "128 GB", "precio": "400", "condicion": "Usado"},
+            {"modelo": "IPHONE 12 MINI", "gb": "128 GB", "precio": "330", "condicion": "Usado"},
+            {"modelo": "IPHONE 12 MINI", "gb": "64 GB", "precio": "310", "condicion": "Usado"},
+            {"modelo": "IPHONE 11 PRO MAX", "gb": "256 GB", "precio": "400", "condicion": "Usado"},
+            {"modelo": "IPHONE 11 PRO MAX", "gb": "64 GB", "precio": "380", "condicion": "Usado"},
+            {"modelo": "IPHONE 11 PRO", "gb": "256 GB", "precio": "420", "condicion": "Usado"},
+            {"modelo": "IPHONE 11 PRO", "gb": "64 GB", "precio": "330", "condicion": "Usado"},
+            {"modelo": "IPHONE 11", "gb": "128 GB", "precio": "330", "condicion": "Usado"},
+            {"modelo": "IPHONE 11", "gb": "64 GB", "precio": "300", "condicion": "Usado"},
+            {"modelo": "IPHONE XS", "gb": "64 GB", "precio": "230", "condicion": "Usado"},
+            {"modelo": "IPHONE XR", "gb": "128 GB", "precio": "240", "condicion": "Usado"},
+            {"modelo": "IPHONE XR", "gb": "64 GB", "precio": "220", "condicion": "Usado"},
+            {"modelo": "IPHONE X", "gb": "256 GB", "precio": "230", "condicion": "Usado"},
+            {"modelo": "IPHONE X", "gb": "64 GB", "precio": "210", "condicion": "Usado"},
+            {"modelo": "IPHONE SE 2020", "gb": "128 GB", "precio": "220", "condicion": "Usado"},
+            {"modelo": "IPHONE SE 2020", "gb": "64 GB", "precio": "200", "condicion": "Usado"},
+            {"modelo": "IPHONE 8 PLUS", "gb": "256 GB", "precio": "200", "condicion": "Usado"},
+            {"modelo": "IPHONE 8 PLUS", "gb": "64 GB", "precio": "180", "condicion": "Usado"},
+            {"modelo": "IPHONE 8", "gb": "64 GB", "precio": "150", "condicion": "Usado"},
+        ]
+        
+        for item in cebra_data:
+            self.results.append({
+                'Pagina': 'CEBRA PHONE',
+                'Modelo': item['modelo'],
+                'GB': item['gb'],
+                'Precio_USD': item['precio'],
+                'Condicion': item['condicion']
+            })
+
     def scrape_all_sheets(self):
         """Scrape all sheets and return results"""
         print("🚀 Starting data extraction...")
@@ -204,6 +278,7 @@ class SimpleiPhoneScraper:
         self.extract_tecnostore_data()
         self.extract_masstore_data()
         self.extract_iphoneshop_data()
+        self.extract_cebra_data()
         
         print(f"✅ Extracted {len(self.results)} products")
         return self.results
