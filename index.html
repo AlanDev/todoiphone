@@ -423,13 +423,51 @@
 
         Object.keys(stores).forEach((storeName) => {
           const storeItems = stores[storeName];
+          
+          // Mapeo de tiendas con ubicación e Instagram
+          const storeInfo = {
+            "VELTRON - LISTA DE PRECIOS": {
+              location: "Resistencia",
+              instagram: "https://www.instagram.com/veltron.ar/"
+            },
+            "TECNOSTORE_ARG": {
+              location: "Corrientes", 
+              instagram: "https://www.instagram.com/tecnostore_arg/"
+            },
+            "MasStore": {
+              location: "Corrientes",
+              instagram: "https://www.instagram.com/masstore_nea/"
+            },
+            "iPhoneShop": {
+              location: "Corrientes",
+              instagram: "https://www.instagram.com/iphoneshop.ok/"
+            },
+            "CEBRA PHONE": {
+              location: "Resistencia",
+              instagram: "https://www.instagram.com/cebra_fon/"
+            }
+          };
+          
+          const info = storeInfo[storeName] || { location: "N/A", instagram: "#" };
 
           html += `
         <div class="bg-white rounded-xl shadow-lg overflow-hidden min-w-0">
           <div class="bg-gradient-to-r from-blue-500 to-purple-600 px-3 py-2">
             <div class="flex items-center justify-between">
-              <h2 class="text-lg font-bold text-white truncate">${storeName}</h2>
-              <span class="bg-white/20 text-white px-2 py-1 rounded-md text-xs font-medium flex-shrink-0">
+              <div class="flex-1 min-w-0">
+                <h2 class="text-lg font-bold text-white truncate">${storeName}</h2>
+                <div class="flex items-center mt-1 space-x-3">
+                  <span class="text-white/80 text-xs flex items-center">
+                    <i class="fas fa-map-marker-alt mr-1"></i>
+                    ${info.location}
+                  </span>
+                  <a href="${info.instagram}" target="_blank" class="text-white/80 hover:text-white text-xs flex items-center transition-colors">
+                    <i class="fab fa-instagram mr-1"></i>
+                    Instagram
+                  </a>
+                </div>
+              </div>
+              <span class="bg-white/20 text-white px-2 py-1 rounded-md text-xs font-medium flex-shrink-0 ml-2">
                 ${storeItems.length} modelos
               </span>
             </div>
